@@ -7,12 +7,12 @@ expert = ExpertAPI(token="76782ad35d33d99cb0ed7bc948919dd8", server_region="wss:
 expert.connect()
 
 data_str = expert.GetCandlesHistory()
-data = json.loads(data_str)
+data = json.loads(f'{data_str}')
 
 ohlc_data = []
 for candle in data['message']['candles'][0]['periods'][0][1]:
     ohlc_data.append(candle)  # Extract OHLC from each period
 
 df = pd.DataFrame(ohlc_data, columns=['open', 'high', 'low', 'close'])
-pd.set_option('display.max_rows', 50)  # Show up to 50 rows
+
 print(df)
