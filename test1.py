@@ -1,17 +1,23 @@
-from PatternPy.tradingpatterns.tradingpatterns import *
-import yfinance as yf
-import pandas as pd
+from ExpertOptionAPI2.expert import EoApi as Expert
+import time
 
-ticker = "AAPL"       # Replace with your desired stock ticker
-start_date = "2023-08-01"
-end_date = "2024-03-06" 
-# Fetch data using Yahoo Finance
-data = yf.download(ticker, start=start_date, end=end_date)
+uids = [
+    499535683,
+    585373418,
+    585373418,
+    900499604,
+    900499604,
+    158932095,
+    548481935
+]
 
-df = pd.DataFrame(data)
-head_and_shoulder = detect_head_shoulder(df)
+expert = Expert(token="76782ad35d33d99cb0ed7bc948919dd8", server_region="wss://fr24g1eu.expertoption.com/ws/v34?app_os=win&app_source=web&app_type=web&app_version=15.4.3&app_build_number=7043&app_brand=expertoption&app_device_info=")
 
-head_and_shoulder_data = head_and_shoulder['head_shoulder_pattern']
+expert.connect()
 
-head_and_shoulder_data_formated = head_and_shoulder_data.dropna()
-print(head_and_shoulder_data_formated)
+num_attempts = 1000
+
+for attempt in 1000:
+    data = expert.GetSocialTradingInfo()
+
+    print(data)
